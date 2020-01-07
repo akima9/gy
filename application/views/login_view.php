@@ -1,7 +1,7 @@
 
 <body>
 	<h1>login_view.php</h1>
-	<form action="" method="post">
+	<form action="/gy/index.php/user/log_in" method="post">
 		<label for="user_id">아이디</label>
 		<input type="text" id="user_id" name="user_id">
 		<label for="user_pw">비밀번호</label>

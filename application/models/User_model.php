@@ -12,12 +12,35 @@ class User_model extends CI_Model {
 	{
 		$arr = array(
 			'user_id' => $data['user_id'],
-			'user_pw' => $data['en_user_pw'],
+			'user_pw' => $data['user_pw'],
 			'cr_time' => date("Y-m-d H:i:s"),
 			'mody_time' => date("Y-m-d H:i:s")
 		);
 		$this->load->database();
 		$this->db->insert('t_user',$arr);
 		$this->db->close();
+	}//End insert_user()
+
+	public function user_id_dupe_check($user_id)
+	{
+		$this->load->database();
+		$sql = "SELECT USER_ID FROM T_USER WHERE USER_ID = ?";
+		$result = $this->db->query($sql, array($user_id))->result();
+		$this->db->close();
+
+		return $result;
+	}//End user_id_dupe_check()
+
+	public function log_in($data)
+	{
+		$this->load->database();
+		$sql = "SELECT USER_ID, USER_PW FROM T_USER WHERE USER_ID = '".$data['user_id']."' AND USER_PW = '".$data['user_pw']."'";
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		} else {
+			return FALSE;
+		}
 	}
 }
