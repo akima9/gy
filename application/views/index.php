@@ -2,8 +2,13 @@
 <body>
 	<h1>Index.php</h1>
 	<ul>
+<?php if ($this->session->userdata('is_login') == TRUE) { ?>
+		<li><?php echo $this->session->userdata('user_id') ?>님 환영합니다.</li>
+		<li><a href="/gy/index.php/user/log_out">로그아웃</a></li>
+<?php } else { ?>
 		<li><a href="/gy/index.php/welcome/login_view">로그인</a></li>
 		<li><a href="/gy/index.php/welcome/add_user_view">회원가입</a></li>
+<?php } ?>
 	</ul>
 	<ul>
 		<li><a href="">게시판</a></li>

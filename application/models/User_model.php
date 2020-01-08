@@ -34,13 +34,9 @@ class User_model extends CI_Model {
 	public function log_in($data)
 	{
 		$this->load->database();
-		$sql = "SELECT USER_ID, USER_PW FROM T_USER WHERE USER_ID = '".$data['user_id']."' AND USER_PW = '".$data['user_pw']."'";
-		$query = $this->db->query($sql);
+		$sql = "SELECT USER_ID, USER_PW FROM T_USER WHERE USER_ID = '".$data['user_id']."'";
+		$result = $this->db->query($sql)->row();
 
-		if ($query->num_rows() > 0) {
-			return $query->row();
-		} else {
-			return FALSE;
-		}
+		return $result;
 	}
 }

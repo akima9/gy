@@ -14,16 +14,14 @@ class User extends CI_Controller {
 	public function add_user()
 	{
 		$data['user_id'] = $this->input->post('user_id');
-		//$data['user_pw'] = $this->input->post('user_pw');
+
 		if (!function_exists('password_hash')) {
 			$this->load->helper('password');
 		}//end if
-		$hash = password_hash($this->input->post('user_pw'), PASSWORD_BCRYPT);
-		$data['user_pw'] = $hash;
 
-		/*$key = bin2hex($this->encryption->create_key(16));
-		$this->encryption->initialize(array('key'=>$key));
-		$data['en_user_pw'] = $this->encryption->encrypt($data['user_pw']);*/
+		//$hash = password_hash($this->input->post('user_pw'), PASSWORD_BCRYPT);
+		$hash = password_hash($this->input->post('user_pw'), PASSWORD_DEFAULT);
+		$data['user_pw'] = $hash;
 
 		$this->load->model('User_model');
 		$this->User_model->insert_user($data);
@@ -57,33 +55,30 @@ class User extends CI_Controller {
 		if (!function_exists('password_hash')) {
 			$this->load->helper('password');
 		}//end if
-		$hash = password_hash($this->input->post('user_pw'), PASSWORD_BCRYPT);
-		$data['user_pw'] = $hash;
-
-		/*$key = bin2hex($this->encryption->create_key(16));
-		$this->encryption->initialize(array('key'=>$key));
-		$data['en_user_pw'] = $this->encryption->encrypt($data['user_pw']);*/
 
 		$this->load->model('User_model');
 		$result = $this->User_model->log_in($data);
 
-		var_dump($data);
-		var_dump($result);
-		/*if ($result) {
+		if (password_verify($data['user_pw'], $result->USER_PW)) {
+			echo "일치";
 			$newdata = array(
-					'user_id'=>$result->user_id,
-					'logged_in'=>TRUE
+					'user_id'=>$result->USER_ID,
+					'is_login'=>TRUE
 				);
 			$this->session->set_userdata($newdata);
-			echo "로그인됨";
+			var_dump($this->session->all_userdata());
+			redirect(base_url('index.php/welcome/index'),'refresh');
 		} else {
-			echo "로그인안됨";
-		}*/
+			echo "불일치";
+			$this->session->set_flashdata('message', '로그인에 실패 했습니다.');
+			var_dump($this->session->all_userdata());
+			//redirect(base_url('index.php/welcome/login_view'), 'refresh');
+		}//End if
+	}//End log_in()
 
-		//var_dump($result);
-		//$this->User_model->insert_user($data);
-
-		//redirect(base_url('index.php/welcome/index'),'refresh');
-	}
+	public function log_out(){
+		$this->session->sess_destroy();
+		redirect(base_url('index.php/welcome/index'),'refresh');
+	}//End log_out()
 
 }
