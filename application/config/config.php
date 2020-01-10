@@ -382,17 +382,22 @@ $config['encryption_key'] = '';
 | except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
 |
 */
-$config['sess_driver'] = 'files';
-$config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200;
-$config['sess_save_path'] = NULL;
+$config['sess_driver'] 				= 'files';
+$config['sess_cookie_name'] 		= 'ci_session'; 	//쿠키이름
+$config['sess_expiration'] 			= 7200; 			//세션 만료 기한
+$config['sess_save_path'] 			= NULL;
 //$config['sess_match_ip'] = FALSE;
-$config['sess_time_to_update'] = 300;
-$config['sess_regenerate_destroy'] = FALSE;
+//$config['sess_time_to_update'] 		= 300;
+$config['sess_regenerate_destroy'] 	= FALSE;
 
-$config['sess_use_database'] = TRUE;
-$config['sess_match_ip'] = TRUE;
-$config['sess_match_useragent'] = TRUE;
+$config['sess_use_database'] 		= TRUE; 			//세션 정보를 DB에 저장할지 여부
+$config['sess_match_ip'] 			= TRUE; 			//세션 정보 가져올 시 IP 일치 확인 사용 여부
+$config['sess_match_useragent'] 	= TRUE; 			//세션 정보 가져올 시 User Agent 일치 확인 사용 여부
+$config['sess_table_name'] 			= 'ci_sessions'; 	//세션 DB 저장 시 DB Table 이름
+$config['sess_time_to_update'] 		= 300; 				//세션 ID 갱신 주기
+
+$config['sess_expire_on_close'] 	= TRUE; 			//브라우저 종료시 세션 만료 여부
+$config['sess_encrypt_cookie'] 		= TRUE; 			//세션 데이터 암호화 여부
 
 /*
 |--------------------------------------------------------------------------
